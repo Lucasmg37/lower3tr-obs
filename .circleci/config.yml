@@ -39,7 +39,7 @@ jobs:
             sudo apt install python3-pip
             sudo pip3 install awsebcli --upgrade
       - run: nvm install 16.17.1 && nvm use 16.17.1 && npm i yarn -g && yarn install && yarn build
-      - run: aws s3 sync ./dist s3://lower3tr
+      - run: aws s3 sync ./build s3://lower3tr
 
 workflows:
   production:
