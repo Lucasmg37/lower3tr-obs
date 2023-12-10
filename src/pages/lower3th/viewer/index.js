@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import logo from '../../../pibpam-logo.svg';
 import { Container } from './styles';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 function ViewerLower3Th() {
   const init = useRef(false)
