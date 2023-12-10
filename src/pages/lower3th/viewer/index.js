@@ -25,7 +25,7 @@ function ViewerLower3Th() {
     }
     init.current = true
 
-    const ioClient = io('http://localhost:3333', {
+    const ioClient = io('http://ec2-52-207-255-226.compute-1.amazonaws.com', {
       query: {
         auth: key
       }
