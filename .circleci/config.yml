@@ -1,0 +1,77 @@
+version: 2.1
+
+base_config: &base_config
+  docker:
+    - image: circleci/node:16.13.0
+  working_directory: ~/project
+
+jobs:
+  dependency-install:
+    <<: *base_config
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            # "package.json" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: "Installing dependencies of project"
+          command: yarn install
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - ./
+  build-and-deploy:
+    machine:
+        image: ubuntu-2004:202010-01
+    steps:
+      - checkout
+      - run:
+          name: Intalling AWS CLI
+          command: |
+            sudo apt-get update
+            sudo apt install python3-pip
+            sudo pip3 install awsebcli --upgrade
+      - run: nvm install 16.17.1 && nvm use 16.17.1 && npm i yarn -g && yarn install && yarn build
+      - run: aws s3 sync ./dist s3://lower3tr
+
+workflows:
+  production:
+    jobs:
+      - dependency-install:
+          filters:
+            branches:
+              only:
+                - main
+      - build-and-deploy:
+          requires:
+            - dependency-install
+
+#
+#jobs:
+#  build_deploy:
+#    machine:
+#      image: ubuntu-2004:202010-01
+#    steps:
+#      - checkout
+#      - run:
+#          name: Intalling AWS CLI
+#          command: |
+#            sudo apt-get update
+#            sudo apt install python3-pip
+#            sudo pip3 install awsebcli --upgrade
+#      - run: npm install && npm run build
+#      - run: aws s3 sync ./build s3://church-admin-pibpam
+#
+#
+#workflows:
+#  version: 2
+#  execute_bulk:
+#    jobs:
+#      - build_deploy
