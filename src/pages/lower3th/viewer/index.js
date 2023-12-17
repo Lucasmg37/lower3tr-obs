@@ -1,66 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { io } from 'socket.io-client';
+import React from 'react';
 import logo from '../../../pibpam-logo.svg';
 import { Container } from './styles';
-import { useParams } from 'react-router-dom';
+import Lower3th from '../../../components/Lower3th';
+import { useLower } from '../../../hooks/useLower';
 
 function ViewerLower3Th() {
-  const init = useRef(false)
-  const [active, setActive] = useState(false)
-  const [data, setData] = useState({})
-  const timeOut = useRef()
-
-  const {key} = useParams()
-  // const navigate = useNavigate()
-
-  useEffect(() => {
-
-    // if (!key) {
-    //   navigate('/unauthorized')
-    //   return
-    // }
-
-    if (init.current || !key) {
-      return
-    }
-    init.current = true
-
-    const ioClient = io('http://ec2-52-207-255-226.compute-1.amazonaws.com', {
-      query: {
-        auth: key
-      }
-    })
-
-    ioClient.on('add', data => {
-      console.log(data)
-      setData(data)
-      setActive(true)
-      clearTimeout(timeOut.current)
-      timeOut.current = setTimeout(() => {
-        setActive(false)
-      }, 20000)
-    })
-
-  }, [key])
+  const { active, data } = useLower()
   return (
     <Container>
-      <div className={`lower ${active && 'active'}`}>
-        <div className='image' >
-          <img src={logo} alt="PIBPM logo" />
-        </div>
-        <div className="textinfo" >
-          <div className='title' >
-            <div>{data?.title || ''}</div>
-          </div>
-          {data.subtitle && (
-            <div className='subtitle' >
-              <div>
-                {data?.subtitle || ''}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      <Lower3th data={data} active={active} logo={logo} />
     </Container>
   )
 }

@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import ViewerLower3Th from "./pages/lower3th/viewer";
 import FormLower3Th from "./pages/lower3th/form";
+import Presentation from "./pages/lower3th/presentation";
+import Painel from "./pages/lower3th/painel";
 
 
 export const routes = () =>
@@ -13,8 +15,16 @@ export const routes = () =>
           element: <ViewerLower3Th />,
         },
         {
+          path: `presentation`,
+          element: <Presentation />,
+        },
+        {
           path: `form`,
           element: <FormLower3Th />,
+        },
+        {
+          path: `painel`,
+          element: <Painel />,
         },
       ],
     },
