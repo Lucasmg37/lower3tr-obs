@@ -14,7 +14,12 @@ export const Container = styled.div`
   }
 
   .image {
-    padding: 8px 16px 8px 8px;
+    padding: 0 32px;
+    background: #fff;
+    height: 89px;
+    display: flex;
+    align-items: center;
+    /* backdrop-filter: blur(10px); */
   }
 
   .textinfo {
@@ -36,24 +41,26 @@ export const Container = styled.div`
   }
 
   .title>div {
-    background: #555;
+    background: #B5DA35;
     padding: 8px 32px;
     display: inline-flex;
+    color: #333;
   }
 
   .subtitle {
     font-size: 20px;
     font-weight: lighter;
     position: relative;
-    margin-left: 16px;
+    /* margin-left: 16px; */
     z-index: 0;
     max-width: calc(100% - 24px);
-    top: -4px;
+    /* top: -4px; */
   }
 
   .subtitle>div {
     padding: 8px 32px;
-    background: #333;
+    background: #5FD9DA;
     display: inline-flex;
+    color: #333;
   }
 `;

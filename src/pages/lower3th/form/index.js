@@ -1,47 +1,74 @@
 import { Button, Divider, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Container, ListItem } from './styles';
-import { v4 } from 'uuid';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { createLower, deleteLower, getAllLower, updateLower } from '../../../service/lower';
 
-const httpClient = axios.create({ baseURL: 'http://ec2-52-207-255-226.compute-1.amazonaws.com/io'})
+const httpClient = axios.create({ baseURL: 'http://ec2-52-207-255-226.compute-1.amazonaws.com/io' })
 
 function FormLower3Th() {
-
-  const [messages, setMessages] = useState([])
+  const [newmessages, setnewMessages] = useState([])
   const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
   const { key } = useParams()
 
+  const initData = async () => {
+    const data = await getAllLower(key)
+    setnewMessages(data)
+  }
+
+  useEffect(() => {
+    if (key) {
+      initData()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key])
+
   const handleSend = (uuid) => {
 
-    const selected = messages.find(item => item.uuid === uuid)
+    const selected = newmessages.find(item => item.uuid === uuid)
 
     if (!selected || !key) {
       return
     }
 
     httpClient.post('/add', {
-      title: selected.title,
-      subtitle: selected.message,
+      title: selected.data.title,
+      subtitle: selected.data.message,
       key
     })
   }
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!title) {
       return
     }
 
-    setMessages(state => [...state, { title, message, uuid: v4() }])
+    const data = await createLower(key, { title, message })
+
+    setnewMessages(state => [...state, data])
     setTitle('')
     setMessage('')
   }
 
   const handleRemove = (uuid) => {
-    setMessages(state => state.filter(item => item.uuid !== uuid))
+    deleteLower(uuid)
+    setnewMessages(state => state.filter(item => item.uuid !== uuid))
+  }
+
+  const handleUpdate = (uuid) => {
+    updateLower(uuid, key, newmessages.find(item => item.uuid === uuid).data)
+  }
+
+  const handleUpdateItem = (uuid, attr, value) => {
+    setnewMessages(state => state.map(item => {
+      if (item.uuid === uuid) {
+        item.data[attr] = value
+      }
+      return item
+    }))
   }
 
   return (
@@ -52,13 +79,13 @@ function FormLower3Th() {
 
       <Divider />
 
-      {messages.map(item => <ListItem key={item.uuid}>
-        <TextField disabled value={item.title} label="Título" variant="filled" />
-        <TextField disabled value={item.message} label="Mensagem" variant="filled" />
+      {newmessages.map(({ data, identifier, uuid }) => <ListItem key={uuid}>
+        <TextField value={data.title} onChange={(e) => handleUpdateItem(uuid, 'title', e.target.value)} label="Título" variant="filled" />
+        <TextField value={data.message} onChange={(e) => handleUpdateItem(uuid, 'message', e.target.value)} label="Mensagem" variant="filled" />
         <div>
-          <Button onClick={() => handleRemove(item.uuid)} >Remover</Button>
-          {/* <Button onClick={handleAdd} >Editar</Button> */}
-          <Button onClick={() => handleSend(item.uuid)} >Enviar</Button>
+          <Button onClick={() => handleRemove(uuid)} >Remover</Button>
+          <Button onClick={() => handleUpdate(uuid)} >Atualizar</Button>
+          <Button onClick={() => handleSend(uuid)} >Enviar</Button>
         </div>
       </ListItem>)}
 
