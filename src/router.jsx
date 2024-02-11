@@ -3,6 +3,7 @@ import ViewerLower3Th from "./pages/lower3th/viewer";
 import FormLower3Th from "./pages/lower3th/form";
 import Presentation from "./pages/lower3th/presentation";
 import Painel from "./pages/lower3th/painel";
+import FormLower3ThFull from "./pages/lower3th/formFull";
 
 
 export const routes = () =>
@@ -21,6 +22,10 @@ export const routes = () =>
         {
           path: `form`,
           element: <FormLower3Th />,
+        },
+        {
+          path: `form-full`,
+          element: <FormLower3ThFull />,
         },
         {
           path: `painel`,
