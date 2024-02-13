@@ -78,6 +78,10 @@ function FormLower3Th() {
       <Button onClick={handleAdd} >Adicionar</Button>
 
       <Divider />
+      
+      <Button onClick={initData}>Recarregar lista</Button>
+      
+      <Divider />
 
       {newmessages.map(({ data, identifier, uuid }) => <ListItem key={uuid}>
         <TextField value={data.title} onChange={(e) => handleUpdateItem(uuid, 'title', e.target.value)} label="Título" variant="filled" />
