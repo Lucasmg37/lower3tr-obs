@@ -3,24 +3,47 @@ import React, { useEffect, useState } from 'react';
 
 import { Container, Form, Grid, ListItem } from './styles';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { createLower, deleteLower, getAllLower, updateLower } from '../../../service/lower';
 import useHolyrics from '../../../hooks/useHolyrics';
+import { v4 } from 'uuid';
 
 const httpClient = axios.create({ baseURL: 'http://ec2-52-207-255-226.compute-1.amazonaws.com/io' })
 
 function FormLower3ThFull() {
-  const [newmessages, setnewMessages] = useState([])
+
+  const [searchParams] = useSearchParams()
+
+  const routeMessage = () => {
+    const title = searchParams.get('title')
+
+    if (title) {
+      return [{
+        uuid: v4(),
+        notSaved: true,
+        data: {
+          title,
+          message: searchParams.get('message'),
+          type: 'auto',
+        }
+      }]
+    }
+
+    return []
+  }
+
+  console.log(routeMessage())
+
+  const [newmessages, setnewMessages] = useState(routeMessage())
   const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
   const { key } = useParams()
 
-  const {configs, setConfigs, handleSaveConfig} = useHolyrics(key)
-
+  const { configs, setConfigs, handleSaveConfig } = useHolyrics(key)
 
   const initData = async () => {
     const data = await getAllLower(key)
-    setnewMessages(data)
+    setnewMessages(state => [...state, ...data])
   }
 
   useEffect(() => {
@@ -78,7 +101,6 @@ function FormLower3ThFull() {
   return (
     <Container>
       <Form>
-
         <h3>
           Crie uma Lower3th
         </h3>

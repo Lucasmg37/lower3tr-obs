@@ -3,15 +3,15 @@ import styled from 'styled-components';
 export const Container = styled.div`
     display: flex;
     width: 100%;
-    padding: 24px;
-    gap: 32px;
+    height: 100%;
 `;
 
 export const Form = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
-    width: 300px;
+    width: 500px;
+    padding: 80px 32px;
 `;
 
 export const ListItem = styled.div`
@@ -28,4 +28,6 @@ export const Grid = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
     gap: 16px;
     flex: 1;
+    overflow: auto;
+    padding: 80px 32px;
 `;
