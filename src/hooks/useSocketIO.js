@@ -11,7 +11,7 @@ const useSocketIO = () => {
       return
     }
 
-    ioClient.current =  io('http://ec2-52-207-255-226.compute-1.amazonaws.com', {
+    ioClient.current =  io('http://api.pibpam.org', {
       query: {
         auth: key
       }

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const client = axios.create({
-  baseURL: 'http://ec2-52-207-255-226.compute-1.amazonaws.com/io'
+  baseURL: 'http://api.pibpam.org/io'
 })
 
 const getAllLower = async (identifier) => {
