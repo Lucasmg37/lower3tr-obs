@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { addSeconds } from 'date-fns';
 
-const httpClient = axios.create({ baseURL: 'http://api.pibpam.org/io' })
+const httpClient = axios.create({ baseURL: 'https://api.pibpam.org/io' })
 
 function Painel() {
 

@@ -8,7 +8,7 @@ import { createLower, deleteLower, getAllLower, updateLower } from '../../../ser
 import useHolyrics from '../../../hooks/useHolyrics';
 import { v4 } from 'uuid';
 
-const httpClient = axios.create({ baseURL: 'http://api.pibpam.org/io' })
+const httpClient = axios.create({ baseURL: 'https://api.pibpam.org/io' })
 
 function FormLower3ThFull() {
 

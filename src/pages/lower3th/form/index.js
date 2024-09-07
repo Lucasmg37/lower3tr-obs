@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { createLower, deleteLower, getAllLower, updateLower } from '../../../service/lower';
 
-const httpClient = axios.create({ baseURL: 'http://api.pibpam.org/io' })
+const httpClient = axios.create({ baseURL: 'https://api.pibpam.org/io' })
 
 function FormLower3Th() {
   const [newmessages, setnewMessages] = useState([])
