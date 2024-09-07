@@ -23,7 +23,6 @@ export const useLower = () => {
     initilialize(key)
 
     addEvent('add', data => {
-      console.log(data)
       setData(data)
       setActive(true)
       clearTimeout(timeOut.current)

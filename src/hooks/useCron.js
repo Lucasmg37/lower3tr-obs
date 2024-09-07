@@ -23,7 +23,6 @@ const useCron = () => {
     initilialize(key)
 
     addEvent('addCron', data => {
-      console.log(data.finish)
       setCron((new Date(data.finish)).getTime() - (new Date()).getTime())
     })
 

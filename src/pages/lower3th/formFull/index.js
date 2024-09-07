@@ -8,7 +8,7 @@ import { createLower, deleteLower, getAllLower, updateLower } from '../../../ser
 import useHolyrics from '../../../hooks/useHolyrics';
 import { v4 } from 'uuid';
 
-const httpClient = axios.create({ baseURL: 'http://ec2-52-207-255-226.compute-1.amazonaws.com/io' })
+const httpClient = axios.create({ baseURL: 'http://api.pibpam.org/io' })
 
 function FormLower3ThFull() {
 
@@ -31,8 +31,6 @@ function FormLower3ThFull() {
 
     return []
   }
-
-  console.log(routeMessage())
 
   const [newmessages, setnewMessages] = useState(routeMessage())
   const [title, setTitle] = useState('')
