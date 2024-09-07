@@ -5,6 +5,7 @@ import { Container, ListItem } from './styles';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { createLower, deleteLower, getAllLower, updateLower } from '../../../service/lower';
+import { v4 } from 'uuid';
 
 const httpClient = axios.create({ baseURL: 'https://api.pibpam.org/io' })
 
@@ -23,7 +24,7 @@ function FormLower3Th() {
     if (key) {
       initData()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key])
 
   const handleSend = (uuid) => {
@@ -46,9 +47,14 @@ function FormLower3Th() {
       return
     }
 
-    const data = await createLower(key, { title, message })
+    let data = {}
 
-    setnewMessages(state => [...state, data])
+    try {
+      data = await createLower(key, { title, message })
+    } catch (error) {
+
+    }
+    setnewMessages(state => [...state, { data: { title, message, }, uuid: data?.uuid ? data.uuid : v4() }])
     setTitle('')
     setMessage('')
   }
@@ -78,9 +84,9 @@ function FormLower3Th() {
       <Button onClick={handleAdd} >Adicionar</Button>
 
       <Divider />
-      
+
       <Button onClick={initData}>Recarregar lista</Button>
-      
+
       <Divider />
 
       {newmessages.map(({ data, identifier, uuid }) => <ListItem key={uuid}>
