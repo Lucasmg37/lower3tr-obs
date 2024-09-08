@@ -4,13 +4,23 @@ import FormLower3Th from "./pages/lower3th/form";
 import Presentation from "./pages/lower3th/presentation";
 import Painel from "./pages/lower3th/painel";
 import FormLower3ThFull from "./pages/lower3th/formFull";
+import Home from "./pages/lower3th/home";
+import HomeIframe from "./pages/lower3th/home-iframe";
 
 
 export const routes = () =>
   createBrowserRouter([
     {
+      path: "/",
+      element: <Home />,
+    },
+    {
       path: `iframe/:key/*`,
       children: [
+        {
+          path: `*`,
+          element: <HomeIframe />,
+        },
         {
           path: `viewer`,
           element: <ViewerLower3Th />,
